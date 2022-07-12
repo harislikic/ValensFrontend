@@ -13,6 +13,11 @@ export default function Home() {
 
   const newurl = "https://localhost:44300/Movies/GetAllMovies";
 
+  const arr = ["Popular", "Thriller", "Kids", "Drama", "Comedie"];
+  const [url_set, setUrl] = useState(newurl);
+  const [search,setSearch]=useState();
+
+
   const [movieData, setData] = useState([]);
   async function getMovies() {
     const responseString = await fetch(newurl);
@@ -24,7 +29,25 @@ export default function Home() {
   useEffect(() => {
     getMovies();
 
-  }, [])
+  }, [url_set])
+
+  const getDataCategory = (movieType) => {
+    if (movieType == "Thriller") {
+      categoryurl = 'https://localhost:44300/MovieGenre/GetAllMoviesById/1';
+    }
+
+
+    setUrl(newurl);
+  }
+
+
+  const searchMovie = (evt) => {
+    if (evt.key == "enter") {
+      newurl = 'https://localhost:44300/Movies/GetMovieName?name=' + search;
+      setUrl(newurl);
+      setSearch(" ");
+    }
+  }
 
 
   return (
@@ -32,12 +55,21 @@ export default function Home() {
       <div className="header">
         <nav>
           <ul>
-
+            {
+              arr.map((value) => {
+                return (
+                  <li><a href="#" name={value} onClick={(e) => { getDataCategory(e.target.name) }}>{value}</a></li>
+                )
+              })
+            }
           </ul>
         </nav>
         <form>
           <div className="search-btn">
-
+            <input type="text" placeholder="Enter movie name"
+              className="inputText" onChange={(e) => { setSearch(e.target.value) }}
+              value={search} onKeyPress={searchMovie}>
+            </input>
             <button><i class="fas fa-search"></i></button>
           </div>
         </form>
