@@ -20,11 +20,11 @@ const MovieDetails = (movieDetail) => {
     const name = router?.query?.movie
     console.log("Name", router.query.movie as string);
 
-     
-    const url = "https://localhost:44300/Movies/GetMovieName?name="+name;
+
+    //const url = "https://localhost:44300/Movies/GetMovieName?name="+name;
     const [movieData, setMovieData] = useState<Partial<IMovie>>({});
     async function getMovieByname() {
-        const responseString = await fetch("https://localhost:44300/Movies/GetMovieName?name="+ name);
+        const responseString = await fetch("https://localhost:44300/Movies/GetMovieName?name=" + name);
         const response = await responseString.json();
         setMovieData(response);
         console.log("Response:", response);
@@ -37,6 +37,9 @@ const MovieDetails = (movieDetail) => {
 
     return (
         <>
+            
+
+
             <div className="container"  >
                 <div className="movie_card" id="bright" >
                     <div className="info_section">
