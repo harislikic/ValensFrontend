@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
+import { useRouter } from "../node_modules/next/router";
 import React from "react";
 import { useEffect, useState } from "react";
-import CardDetails from "./Components/CardDetails";
+
 
 
 interface IMovie {
@@ -17,19 +17,21 @@ interface IMovie {
 const MovieDetails = (movieDetail) => {
 
     const router = useRouter()
-    const id = router?.query?.movie
-    console.log('x',id)
-    const newurl =`https://localhost:44300/Movies/GetMovieid?id=${id}` ;
- 
+    const name = router?.query?.movie
+    console.log("Name", router.query.movie as string);
+
+   // const newurl =`https://localhost:44300/Movies/GetMovieid?id=${id}` ;
+    const url = "https://localhost:44300/Movies/GetMovieName?name="+name;
     const [movieData, setMovieData] = useState<Partial<IMovie>>({});
-    async function getMovieById() {
-        const responseString = await fetch(newurl);
+    async function getMovieByname() {
+        const responseString = await fetch("https://localhost:44300/Movies/GetMovieName?name="+name);
         const response = await responseString.json();
         setMovieData(response);
+        console.log("Response:", response);
     }
 
     useEffect(() => {
-        getMovieById();
+        getMovieByname();
     }, [])
 
 
@@ -43,7 +45,7 @@ const MovieDetails = (movieDetail) => {
                             <h1>{movieData.title}</h1>
                             <h4> {movieData.director} {movieData.dateOfRelase}</h4>
                             <span className="minutes">{movieData.minutes} min</span>
-                            <p> Romance</p>
+                            <p> Romance  </p>
                         </div>
                         <div className="movie_desc">
                             <p className="text">

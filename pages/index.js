@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Card from './Components/Card';
-
+import process from 'process';
 
 
 import React, { useEffect, useState } from "react";
@@ -25,10 +25,19 @@ export default function Home() {
     setData(response);
   }
 
+  const [categorydata, setItems] = useState([]);
+  async function getcategory() {
+    const responseString = await fetch('https://localhost:44300/MovieGenre/GetAllMovies');
+    const response = await responseString.json();
+    setItems(response);
+    
+  }
+  console.log('category',categorydata);
+
 
   useEffect(() => {
     getMovies();
-
+   getcategory();
   }, [url_set])
 
   const getDataCategory = (movieType) => {
@@ -56,9 +65,9 @@ export default function Home() {
         <nav>
           <ul>
             {
-              arr.map((value) => {
+              categorydata.map((value) => {
                 return (
-                  <li><a href="#" name={value} onClick={(e) => { getDataCategory(e.target.name) }}>{value}</a></li>
+                  <li><a href="#" name={value.id} onClick={(e) => { getDataCategory(e.target.name) }}>{value.genreName}</a></li>
                 )
               })
             }
