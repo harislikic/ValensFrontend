@@ -9,11 +9,11 @@ export default function Home() {
 
 
 
-  const newurl = "https://localhost:44300/Movies/GetAllMovies";
+  const newurl = "https://localhost:44300/Movies/GetAllMovies"
 
 
   const [url_set, setUrl] = useState(newurl);
-
+  const[searchTerm, setSearchTerm] = useState('');
 
 
   const [movieData, setData] = useState([]);
@@ -67,8 +67,9 @@ export default function Home() {
         </nav>
         <form>
           <div className="search-btn">
-            <input type="text" placeholder="Enter movie name"
-              className="inputText" >
+            <input type="text" placeholder="Enter movie name" color='black'
+             onChange={event => {setSearchTerm(event.target.value) }}
+              className="inputText"  >
 
             </input>
             <button><i class="fas fa-search"></i></button>
@@ -77,7 +78,15 @@ export default function Home() {
       </div>
       <div className="container">
         {
-          (movieData.length == 0) ? <p className="notfound">Not found</p> : movieData.map((res, pos) => {
+          (movieData.length == 0) ? <p className="notfound">Not found</p> : movieData.filter((val)=>{
+            if(searchTerm == ""){
+              return val
+            }
+            else if ( val.title.toLowerCase().startsWith(searchTerm.toLowerCase()))
+            {
+              return val
+            }
+          }).map((res, pos) => {
             return (
               <Card info={res} key={res.id} />
             )
