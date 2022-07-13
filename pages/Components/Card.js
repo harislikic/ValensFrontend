@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "../../node_modules/next/link";
 
 const Card = (movie) => {
     console.log("data movies", movie);
@@ -6,7 +7,7 @@ const Card = (movie) => {
 
     return (
         <>
-            <a href={`/${movie.info.title}`}>
+            <Link href={`/${movie.info.title}`}>
                 <div className="movie" >
                     <img src={movie.info.moviePicture} className="poster"></img>
                     <div className="movie-details">
@@ -21,7 +22,7 @@ const Card = (movie) => {
                         </div>
                     </div>
                 </div>
-            </a>
+            </Link>
         </>
     )
 }

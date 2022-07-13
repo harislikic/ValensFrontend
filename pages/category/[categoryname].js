@@ -7,16 +7,17 @@ const Details = () => {
 
 
     const router = useRouter();
-    var route = router.query.id;
+    var route = router.query.categoryname;
     console.log(route);
 
-    const url = "https://localhost:44300/Movies/Filters?genre=";
     const [Data, setData] = useState([])
 
     async function getcategorisdata() {
-        const response = await fetch("https://localhost:44300/Movies/Filters?genre=" + router.query.id)
-        const data = await response.json()
-        setData(data)
+        console.log("?",router.query.categoryname);
+        const response = await fetch("https://localhost:44300/Movies/Filters?genre=" + route  );
+        const data = await response.json();
+        setData(data);
+        console.log("aaaa",data);
     }
     console.log('result', Data);
 

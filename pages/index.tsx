@@ -1,6 +1,5 @@
 
 import Card from './Components/Card';
-import Link from 'next/dist/client/link';
 
 
 import React, { useEffect, useState } from "react";
@@ -53,14 +52,7 @@ export default function Home() {
 
 
   async function Sort(arg: string) {
-    if (arg != "Date Of Relase" && arg != "Name") {
-      const responseS = await fetch("https://localhost:44300/Movies/sort?value=" + arg)
-      const response = await responseS.json();
-      setData(response);
 
-    }
-
-    if (arg == "Date Of Relase" || arg == "Name") {
       if (arg == 'Date Of Relase')
         arg = 'year';
       else
@@ -68,10 +60,11 @@ export default function Home() {
       const responseS = await fetch("https://localhost:44300/Movies/sort?value=" + arg)
       const response = await responseS.json();
       setData(response);
-    }
+      console.log("Poslije sorta", response);
   }
 
   const sortingBy = (event: any) => {
+    console.log("event",event.target.value);
     Sort(event.target.value);
   }
 
@@ -108,7 +101,7 @@ export default function Home() {
       </div>
       <div className="container">
         <div className='filtersbuttons'>
-          <label for="years">Choose a year:</label>
+          <label htmlFor="years">Choose a year:</label>
           <select value={selects} onChange={e => setSelects(e.target.value)}>
             <option></option>
             <option>2000</option>
@@ -116,7 +109,13 @@ export default function Home() {
             <option>2013</option>
             <option>2015</option>
           </select>
+          <select onChange={sortingBy} className="sortSelect" >
+                  <option disabled selected>Sort movies by</option>
+                  <option>Date of release</option>
+                  <option>Name</option>
+                </select>
         </div>
+
         {
           (movieData.length == 0) ? <p className="notfound">Not found</p> : movieData.filter((val) => {
             if (searchTerm == "" || selects == "") {
