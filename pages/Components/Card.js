@@ -1,9 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Link from "../../node_modules/next/link";
+import axios from 'axios'
+
+
+async function addToFavorite( id )
+{
+    axios.post("https://localhost:44300/Favorites/Add/" + id)
+    .then(response => {
+        if (response.data == true) {
+            alert("Add to favorites successfuly!");
+            window.location.reload();
+        }
+        else
+            alert("Error!")
+    });
+}
+
+
+
 
 const Card = (movie) => {
     console.log("data movies", movie);
     console.log("id", movie.info.id);
+
 
     return (
         <>
@@ -21,7 +40,9 @@ const Card = (movie) => {
 
                         </div>
                     </div>
+                    <button  onClick={() => addToFavorite(movie.info.id)} >Add to favorite</button>
                 </div>
+               
             </Link>
         </>
     )

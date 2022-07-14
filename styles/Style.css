@@ -421,6 +421,11 @@ i{
 }
 
 
+.Button-favorites{
+  display: flex;
+  justify-content: center;
+}
+
 
 
 

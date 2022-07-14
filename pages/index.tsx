@@ -3,6 +3,7 @@ import Card from './Components/Card';
 
 
 import React, { useEffect, useState } from "react";
+import Link from '../node_modules/next/link';
 
 export default function Home() {
 
@@ -15,6 +16,8 @@ export default function Home() {
 
 
   const [url_set, setUrl] = useState(newurl);
+  const [movieData, setData] = useState([]);
+  const [categorydata, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selects, setSelects] = useState();
 
@@ -22,15 +25,12 @@ export default function Home() {
   console.log('select', selects);
 
 
-
-  const [movieData, setData] = useState([]);
   async function getMovies() {
     const responseString = await fetch(newurl);
     const response = await responseString.json();
     setData(response);
   }
 
-  const [categorydata, setItems] = useState([]);
   async function getcategory() {
     const responseString = await fetch('https://localhost:44300/MovieGenre/GetAllCategorys');
     const response = await responseString.json();
@@ -49,6 +49,8 @@ export default function Home() {
     }
     setUrl(newurl);
   }
+
+ 
 
 
   async function Sort(arg: string) {
@@ -81,13 +83,14 @@ export default function Home() {
               categorydata.map((value) => {
                 return (
                   <li><a href={`/category/${value.genreName}`} name={value.id} onClick={(e) => { getDataCategory(e.target.name) }}>{value.genreName}</a></li>
-
+    
                 )
               })
             }
 
           </ul>
         </nav>
+        <Link href="favorites"><li><a>Favorites</a></li></Link>
         <form>
           <div className="search-btn">
             <input type="text" placeholder="Enter movie name" color='black'
@@ -101,14 +104,7 @@ export default function Home() {
       </div>
       <div className="container">
         <div className='filtersbuttons'>
-          <label htmlFor="years">Choose a year:</label>
-          <select value={selects} onChange={e => setSelects(e.target.value)}>
-            <option></option>
-            <option>2000</option>
-            <option>2020</option>
-            <option>2013</option>
-            <option>2015</option>
-          </select>
+        
           <select onChange={sortingBy} className="sortSelect" >
                   <option disabled selected>Sort movies by</option>
                   <option>Date of release</option>

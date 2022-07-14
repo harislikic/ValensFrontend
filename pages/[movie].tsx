@@ -16,12 +16,12 @@ interface IMovie {
 
 function MovieDetails() {
 
+   
     const router = useRouter()
+    const { pid } = router.query
+    console.log("Name", {pid});
 
-    console.log("Name", router.query.movie as string);
 
-
-    const API = "https://localhost:44300/Movies/GetMovieName?name=" + router.query.movie;
 
     const [movieData, setMovieData] = useState([]);
 
@@ -36,10 +36,11 @@ function MovieDetails() {
             .catch(err => {
                 console.log(err)
             })
+            
 
     }, [])
 
-    console.log("mo", movieData);
+    console.log("Data", movieData);
     if (movieData === undefined) return <h1>Loading...</h1>
 
     return (
